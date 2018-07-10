@@ -16,7 +16,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "prod-start": "pm2 micro",
+    "prod-start": "pm2 start micro",
     "start": "micro"
   },
   "now": {
