@@ -7,17 +7,20 @@
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
     "figures": "^2.0.0",
-    "micro": "^9.3.2",
+    "micro": "latest",
     "nanoid": "^1.0.7",
     "node-fetch": "^2.1.2",
     "performance-now": "^2.1.0",
     "pretty-ms": "^3.2.0",
-    "query-string": "^6.1.0",
-    "signale": "^1.2.1"
+    "query-string": "^6.1.0"
   },
   "devDependencies": {},
   "scripts": {
+    "prod-start": "pm2 micro",
     "start": "micro"
+  },
+  "now": {
+    "alias": "domapi"
   },
   "keywords": [],
   "author": "",
