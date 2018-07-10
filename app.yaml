@@ -1,0 +1,13 @@
+env: flex
+runtime: nodejs
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 2
+
+# WARNING:
+# Your package.json does not specify a supported Node.js version.  Please pin your applicationto a major version of the Node.js runtime.
+# To learn more, visit https://cloud.google.com/appengine/docs/flexible/nodejs/runtime

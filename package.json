@@ -14,14 +14,18 @@
     "pretty-ms": "^3.2.0",
     "query-string": "^6.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "micro-dev": "^3.0.0"
+  },
   "scripts": {
     "prod-start": "pm2 start micro",
-    "start": "micro"
+    "dev": "micro-dev",
+    "start": "micro --listen tcp://0.0.0.0:8080"
   },
   "now": {
     "alias": "domapi"
   },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC"
