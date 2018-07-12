@@ -2,6 +2,7 @@ const { send } = require('micro')
 const parseUrl = require('./utils/parseUrl')
 const log = require('./utils/logger')
 const response = require('./utils/responseHandler')
+const router = require('./utils/router')
 const { SUCCESS, ERROR, START, STOP } = require('./utils/logger').types
 
 // example URL
@@ -10,15 +11,19 @@ const { SUCCESS, ERROR, START, STOP } = require('./utils/logger').types
 module.exports = async (req, res) => {
   const { method, url } = req
 
+  // start timer
   log.benchmark({ type: START })
 
-  // read & parse request URL-information
-  const { error = false, query, instructions } = parseUrl(url)
+  // read & parse request URL-information.
+  // If a route matches, use a predetermined route instead.
+  // Otherwise, simply return the user-entered URL as is into parseURL()
+  const { error = false, query, instructions } = parseUrl(router({ method, url }))
 
   if (error) {
     send(res, 400, { error })
-    const time = log.benchmark({ type: STOP })
 
+    // stop timer
+    const time = log.benchmark({ type: STOP })
     log.http({ type: ERROR, title: `${method} (${time})`, message: url })
   } else {
     // extra desired properties from query
@@ -27,12 +32,11 @@ module.exports = async (req, res) => {
     // load target body
     const body = await response({ url, purgecache, instructions })
 
-    // load time
+    // stop timer
     const time = log.benchmark({ type: STOP })
 
     // send response
     send(res, 200, { delay: time, ...body })
-
     log.http({ type: SUCCESS, title: `${method} (${time})`, message: url })
   }
 }

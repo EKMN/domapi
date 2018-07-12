@@ -47,7 +47,6 @@ module.exports = ({ body, instructions }) => {
         if (typeof objective === 'string') {
           $(objective).each((i, element) => {
             content[i] = $(element).text()
-
             // remove whitespaces and newlines from start and end
             content[i] = trimPretty(content[i])
           })
