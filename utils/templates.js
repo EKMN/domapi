@@ -26,3 +26,9 @@ const IMDB = {
 module.exports = {
   IMDB
 }
+
+// Feature suggestion
+// * add support for tests, .e.g. test: { it: 'has length of 5 or more chars', expect: (value) => value.length >= 5 }
+// * i.e. the it describes the what, and the expect takes a function that is expected to return true. Otherwise the test will fail.
+// * in other words, "scraperDom.js" should check if test exists in an instruction, and if so run the expect-function.
+// * If the provided output fails the expect, i.e. expect returns false, then scrapeDom will log an error with the "it" as message
