@@ -13,16 +13,54 @@ module.exports = ({ body, instructions }) => {
     }
   })
 
-  return instructions.map((instruction, i) => {
-    let content = []
+  try {
+    return instructions
+      .map((instruction) => {
+        let content = []
 
-    $(instruction.objective).each((i, elem) => {
-      content[i] = $(elem).text().trim()
-    })
+        const { objective } = instruction
 
+        // objective is object
+        if (typeof objective === 'object') {
+          const { selector, attribute } = objective
+          console.log(attribute)
+          // objective contains several steps
+          $(selector).each((i, element) => {
+            if (attribute) {
+              // objective contains attribute
+              content[i] = $(element).attr(attribute)
+            } else {
+              // return text from selected element
+              content[i] = $(element).text()
+            }
+          })
+        }
+
+        // objective is string
+        if (typeof objective === 'string') {
+          $(objective).each((i, element) => {
+            content[i] = $(element).text()
+          })
+        }
+
+        // save content as an array, single entry, or 'no content'
+        content = content.length >= 2 ? content : content[0] || 'no content'
+
+        return {
+          [`${instruction.description}`]: content
+        }
+      })
+      .reduce((acc, cur) => {
+        const key = Object.keys(cur)[0]
+        const value = Object.values(cur)[0]
+
+        acc[key] = value
+
+        return acc
+      }, {})
+  } catch (error) {
     return {
-      description: instruction.description,
-      content: content.length ? content : 'no content'
+      error: error.message
     }
-  })
+  }
 }

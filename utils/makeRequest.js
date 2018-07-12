@@ -6,8 +6,8 @@ module.exports = async (url) => {
   }
 
   try {
-    const contents = await fetch(url)
-    return contents.text()
+    const body = await fetch(url)
+    return body.text()
   } catch (e) {
     console.log(e)
     return {

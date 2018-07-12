@@ -7,19 +7,22 @@
     "chalk": "^2.4.1",
     "cheerio": "^1.0.0-rc.2",
     "figures": "^2.0.0",
+    "html-minifier": "^3.5.18",
+    "lowdb": "^1.0.0",
     "micro": "latest",
     "nanoid": "^1.0.7",
     "node-fetch": "^2.1.2",
     "performance-now": "^2.1.0",
     "pretty-ms": "^3.2.0",
-    "query-string": "^6.1.0"
+    "query-string": "^6.1.0",
+    "sha256": "^0.2.0"
   },
   "devDependencies": {
     "micro-dev": "^3.0.0"
   },
   "scripts": {
     "prod-start": "pm2 start micro",
-    "dev": "micro-dev",
+    "dev": "micro-dev -w utils",
     "start": "micro --listen tcp://0.0.0.0:8080"
   },
   "now": {

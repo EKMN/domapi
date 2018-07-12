@@ -1,8 +1,7 @@
 const { send } = require('micro')
-const makeRequest = require('./utils/makeRequest')
-const scrapeDom = require('./utils/scrapeDom')
 const parseUrl = require('./utils/parseUrl')
 const log = require('./utils/logger')
+const response = require('./utils/responseHandler')
 const { SUCCESS, ERROR, START, STOP } = require('./utils/logger').types
 
 // example URL
@@ -18,19 +17,22 @@ module.exports = async (req, res) => {
 
   if (error) {
     send(res, 400, { error })
-
     const time = log.benchmark({ type: STOP })
+
     log.http({ type: ERROR, title: `${method} (${time})`, message: url })
   } else {
+    // extra desired properties from query
+    const { url, purgecache = false } = query
+
     // load target body
-    const body = await makeRequest(query.url)
+    const body = await response({ url, purgecache, instructions })
 
-    // scrape response body
-    const dom = scrapeDom({ body, instructions })
-
-    send(res, 200, { dom })
-
+    // load time
     const time = log.benchmark({ type: STOP })
+
+    // send response
+    send(res, 200, { delay: time, ...body })
+
     log.http({ type: SUCCESS, title: `${method} (${time})`, message: url })
   }
 }
