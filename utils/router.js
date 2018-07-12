@@ -22,12 +22,14 @@ const newURL = ({ url, template, queryparams }) => {
 
 const GET = ({ url, routes, queryparams }) => {
   const [ arg1, arg2 ] = routes
-  if (arg1.toUpperCase() === 'IMDB') {
-    // api.com/imdb/tt5758778 will trigger this template
-    return newURL({ url: `https://www.imdb.com/title/${arg2}`, template: `imdb`, queryparams })
-  } else {
-    // no changes, return original unmodified URL
-    return url
+  switch (arg1.toUpperCase()) {
+    case 'IMDB':
+      // /imdb/tt5758778 will trigger this template
+      const imdbID = arg2.substr(0, 9)
+      return newURL({ url: `https://www.imdb.com/title/${imdbID}`, template: `imdb`, queryparams })
+    default:
+      // no changes, return original unmodified URL
+      return url
   }
 }
 
@@ -40,8 +42,3 @@ module.exports = ({ method, url }) => {
       return GET({ url, routes, queryparams })
   }
 }
-
-// TODO (1/4) currently invalid routes, e.g. /imdb/tt5758776?purg will create a cache hit, as "tt5758776?purg" will be sent as the last
-// TODO (2/4) part of the URL to imdb, i.e. the end URL will look like this: "https://www.imdb.com/title/tt5758776?purg"
-// TODO (3/4) find a clean way to remove invalid query parameters. Proper parameters, as expected, should be as follows:
-// TODO (4/4) "/imdb/tt5758776/?purg" or as the valid version (purg is intentionally misspelled): "/imdb/tt5758776/?purgecache"
