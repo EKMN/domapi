@@ -27,7 +27,6 @@ module.exports = ({ body, instructions }) => {
         // objective is object
         if (typeof objective === 'object') {
           const { selector, attribute } = objective
-          console.log(attribute)
           // objective contains several steps
           $(selector).each((i, element) => {
             if (attribute) {

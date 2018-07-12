@@ -33,7 +33,6 @@ const refreshCache = async ({ db, url, instructions, urlhash, reason }) => {
 
   // look for a match response
   const hitExists = await db.get('cache').find({ urlhash }).value()
-  console.log({ hitExists })
 
   // craft our vdom model
   const dom = scrapeDom({ body, instructions })
