@@ -1,5 +1,9 @@
 const cheerio = require('cheerio')
 
+const trimPretty = (string) => {
+  return string.replace(/(\r\n\t|\n|\r\t)/gm, '').trim()
+}
+
 module.exports = ({ body, instructions }) => {
   const $ = cheerio.load(body)
 
@@ -18,7 +22,7 @@ module.exports = ({ body, instructions }) => {
       .map((instruction) => {
         let content = []
 
-        const { objective } = instruction
+        const { objective, description } = instruction
 
         // objective is object
         if (typeof objective === 'object') {
@@ -33,6 +37,9 @@ module.exports = ({ body, instructions }) => {
               // return text from selected element
               content[i] = $(element).text()
             }
+
+            // remove whitespaces and newlines from start and end
+            content[i] = trimPretty(content[i])
           })
         }
 
@@ -40,6 +47,9 @@ module.exports = ({ body, instructions }) => {
         if (typeof objective === 'string') {
           $(objective).each((i, element) => {
             content[i] = $(element).text()
+
+            // remove whitespaces and newlines from start and end
+            content[i] = trimPretty(content[i])
           })
         }
 
@@ -47,7 +57,7 @@ module.exports = ({ body, instructions }) => {
         content = content.length >= 2 ? content : content[0] || 'no content'
 
         return {
-          [`${instruction.description}`]: content
+          [description]: content
         }
       })
       .reduce((acc, cur) => {
