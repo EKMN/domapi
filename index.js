@@ -20,16 +20,22 @@ module.exports = async (req, res) => {
   const { error = false, query, instructions } = parseUrl(router({ method, url }))
 
   if (error) {
-    send(res, 400, { error })
-
-    // stop timer
-    const time = log.benchmark({ type: STOP })
-    log.http({ type: ERROR, title: `${method} (${time})`, message: url })
+    if (url === '/favicon.ico' || url === '/robots.txt') {
+      // each time a browser makes the request it also implicitly asks for a favicon
+      // in order to not fill the logs with useless information, this will not be logged
+      send(res, 200, 'ok')
+      log.benchmark({ type: STOP })
+    } else {
+      // regular error
+      send(res, 400, { error })
+      const time = log.benchmark({ type: STOP })
+      log.http({ type: ERROR, title: `${method} (${time})`, message: url })
+    }
   } else {
     // extra desired properties from query
     const { url, purgecache = false } = query
 
-    // load target body
+    // load response body
     const body = await response({ url, purgecache, instructions })
 
     // stop timer
