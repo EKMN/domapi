@@ -39,7 +39,7 @@ const handleCooldown = async ({ urlhash, db }) => {
   cooldown.expired = state.freezeDuration ? state.freezeDuration <= now : false
   cooldown.limitReached = state.purgeAttempts >= CACHE_PURGE_LIMIT
   cooldown.timeRemaining =
-    Math.sign(state.freezeDuration - now) !== -1 ? prettyMs(state.freezeDuration - now) : 'calculating...'
+    Math.sign(state.freezeDuration - now) !== -1 ? prettyMs((state.freezeDuration || 0) - (now || 0)) : 'calculating...'
 
   // cooldown method
   cooldown.activate = () => {

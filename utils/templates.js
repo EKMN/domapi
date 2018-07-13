@@ -16,6 +16,8 @@ const IMDB = {
     attribute: 'content'
   },
   movie_year: 'span#titleYear',
+  movie_rating: '.ratingValue',
+  movie_metacritic: 'div.metacriticScore > span',
   movie_runtime: 'time[itemprop="duration"]',
   movie_categories: 'span[itemprop="genre"]',
   movie_director: 'span[itemprop="director"] .itemprop',
