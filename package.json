@@ -21,12 +21,9 @@
     "micro-dev": "^3.0.0"
   },
   "scripts": {
-    "prod-start": "pm2 start micro",
+    "deploy": "now && now alias",
     "dev": "micro-dev -w utils",
     "start": "micro --listen tcp://0.0.0.0:8080"
-  },
-  "now": {
-    "alias": "domapi"
   },
   "private": true,
   "keywords": [],
