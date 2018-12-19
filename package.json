@@ -10,10 +10,10 @@
     "html-minifier": "^3.5.18",
     "lowdb": "^1.0.0",
     "micro": "latest",
-    "nanoid": "^1.0.7",
+    "nanoid": "^2.0.0",
     "node-fetch": "^2.1.2",
     "performance-now": "^2.1.0",
-    "pretty-ms": "^3.2.0",
+    "pretty-ms": "^4.0.0",
     "query-string": "^6.1.0",
     "sha256": "^0.2.0"
   },
